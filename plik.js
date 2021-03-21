@@ -1,57 +1,48 @@
-var myInput = document.getElementById("psw");
-var letter = document.getElementById("letter");
-var capital = document.getElementById("capital");
-var length = document.getElementById("length");
+function checkPassword() {
+    const smallLetters = /[a-z]/g;
+    const bigLetters = /[A-Z]/g;
+    const specialCharacters = /[!@#$%^&*)(+=._-]/g
 
-// When the user clicks on the password field, show the message box
-myInput.onfocus = function() {
-  document.getElementById("message").style.display = "block";
+    const message1 = "Min. 1 mała litera";
+    const message2 = "Min. 1 duża litera ";
+    const message3 = "Min. 1 znak specjalny";
+    const message4 = "Min. 8 znaków";
+
+    const passwordValue = document.getElementById("password").value;
+    const passwordError = document.getElementById("passwordError");
+    passwordError.innerHTML = "";
+    
+    if (!smallLetters.test(passwordValue)) {
+        addErrorMessage(passwordError, message1);
+    }
+    if (!bigLetters.test(passwordValue)) {
+        addErrorMessage(passwordError, message2);
+    }
+    if (!specialCharacters.test(passwordValue)) {
+        addErrorMessage(passwordError, message3);
+    }
+    if (passwordValue.length < 8) {
+        addErrorMessage(passwordError, message4);
+    }
+    if (passwordValue.length === 0) {
+        passwordError.innerHTML = "";
+    }
+    checkIfPasswordIsTheSame();
 }
 
-// When the user clicks outside of the password field, hide the message box
-myInput.onblur = function() {
-  document.getElementById("message").style.display = "none";
+function addErrorMessage(passwordError, message) {
+    return passwordError.innerHTML += "<p>" + message + "</p>";
 }
 
-// When the user starts to type something inside the password field
-myInput.onkeyup = function() {
-  // Validate lowercase letters
-  var lowerCaseLetters = /[a-z]/g;
-  if(myInput.value.match(lowerCaseLetters)) {  
-    letter.classList.remove("invalid");
-    letter.classList.add("valid");
-  } else {
-    letter.classList.remove("valid");
-    letter.classList.add("invalid");
-  }
-  
-  // Validate capital letters
-  var upperCaseLetters = /[A-Z]/g;
-  if(myInput.value.match(upperCaseLetters)) {  
-    capital.classList.remove("invalid");
-    capital.classList.add("valid");
-  } else {
-    capital.classList.remove("valid");
-    capital.classList.add("invalid");
-  }
+function checkIfPasswordIsTheSame() {
+    const passwordValue = document.getElementById("password").value;
+    const repeatedPasswordValue = document.getElementById("repeatedPassword").value;
+    const repeatedPasswordError = document.getElementById("repeatedPasswordError");
+    const missMatchError = "Hasła różnią się od siebie!"
 
-  // Validate numbers
-  var numbers = /[0-9]/g;
-  if(myInput.value.match(numbers)) {  
-    number.classList.remove("invalid");
-    number.classList.add("valid");
-  } else {
-    number.classList.remove("valid");
-    number.classList.add("invalid");
-  }
-  
-  // Validate length
-  if(myInput.value.length >= 8) {
-    length.classList.remove("invalid");
-    length.classList.add("valid");
-  } else {
-    length.classList.remove("valid");
-    length.classList.add("invalid");
-  }
-}ar number = document.getElementById("number");
-v
+    if (repeatedPasswordValue === passwordValue) {
+        repeatedPasswordError.innerHTML = "";
+    } else {
+        repeatedPasswordError.innerHTML = missMatchError;
+    }
+}
